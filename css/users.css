@@ -1,0 +1,33 @@
+.users-header
+{
+    box-sizing: border-box;
+    padding: 25px 50px 10px 50px;
+    width: 100%;
+}
+
+#header-name
+{
+    font-size: 36px;
+    font-weight: 600;
+}
+
+#header-email, #header-website
+{
+    color: #6289FF;
+}
+
+#header-address, #header-phone
+{
+    color: gray;
+}
+
+#header-companyname
+{
+    margin-top: 20px;
+    font-weight: 400;
+}
+
+#header-companyinfo
+{
+    margin-left: 22px;
+}
