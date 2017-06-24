@@ -16,7 +16,7 @@
     color: #6289FF;
 }
 
-#header-address, #header-phone
+#header-address, #header-phone, #header-companyinfo
 {
     color: gray;
 }
