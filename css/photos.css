@@ -10,3 +10,23 @@
     font-size: 30px;
     font-weight: 600;
 }
+
+.photo-grid
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#grid-item
+{
+    border-radius: 5px;
+    margin: auto;
+    padding: 5px;
+    transition-duration: 100ms;
+}
+
+#grid-item:hover
+{
+    box-shadow: 0px 0px 10px #777;
+}

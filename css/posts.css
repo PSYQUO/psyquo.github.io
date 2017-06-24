@@ -19,6 +19,12 @@
     margin: 10px 0px 10px 0px;
     padding: 5px;
     transition-duration: 100ms;
+    
+}
+
+#post-body
+{
+    color: #444;
 }
 
 #post:hover

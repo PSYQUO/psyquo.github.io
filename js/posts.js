@@ -66,7 +66,7 @@ $(document).ready
             for(curIndex = data.length - 1; curIndex >= 0; curIndex--)
             {
                 var title = $("<span></span>").append(data[curIndex].title + "<br>").attr("id", "post-title");
-                var body = $("<span></span>").append(data[curIndex].body + "<br>");            
+                var body = $("<span></span>").append(data[curIndex].body + "<br>").attr("id", "post-body");
                 var id = $("<span></span>").append("id = " + data[curIndex].id);
                 var post = $("<div></div>").append(title).append(body).append(id).attr("id", "post");
                 fetchUserName(data[curIndex].userId, body);

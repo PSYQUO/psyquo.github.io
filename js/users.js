@@ -42,7 +42,7 @@ $(document).ready
             for(var i = data.length - 1; i >= data.length - 3; i--)
             {
                 var title = $("<span></span>").append(data[i].title + "<br>").attr("id", "post-title");
-                var body = $("<span></span>").append(data[i].body + "<br>");
+                var body = $("<span></span>").append(data[i].body + "<br>").attr("id", "post-body");
                 var id = $("<span></span>").text("id = " + data[i].id);
                 var post = $("<div></div>").append(title).append(body).append(id).attr("id", "post");
 
