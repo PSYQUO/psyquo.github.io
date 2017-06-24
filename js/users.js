@@ -64,6 +64,14 @@ $(document).ready
             {
                 window.location.href = "index.html";
             }
+        );  
+
+        $("#photos").click
+        (
+            function()
+            {
+                window.location.href = "photos.html";
+            }
         );        
     }
 );

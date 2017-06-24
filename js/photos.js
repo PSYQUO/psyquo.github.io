@@ -11,31 +11,6 @@ for(var i = 0; i < hashes.length; i++)
     vars[hash[0]] = hash[1]; // Object attribute
 }
 
-function fetchUserName(userId, body) // Works because of object reference
-{
-    $.ajax
-    ({
-        url: root + "/users/" + userId,
-        method: "GET"
-    }).done(function(data)
-    {
-        var link = $("<span></span").append(data.username).attr("id", "post-user");
-        var user = $("<span></span>").append("by ").append(link).append("<br>");
-
-        link.click
-        (
-            function()
-            {
-                window.location.href = "users.html?id=" + data.id;
-            }
-        )
-        
-        body.append(user);
-    });
-}
-
-var curIndex;
-
 $(document).ready
 (
     function()
@@ -74,27 +49,6 @@ $(document).ready
                 $(".posts").append(post);
             }              
         });
-
-        
-        // $(".content").on('scroll', function()
-        // { 
-        //     console.log($(".content").scroll());
-        //     console.log($(".content").height());
-
-        //     if($(".content").scrollTop() > $(".content").height() - 100)
-        //     { 
-        //         for(; index >= datwo.length - 10 && index >= 0; index--)
-        //         {
-        //             var title = $("<span></span>").append(datwo[index].title + "<br>").attr("id", "post-title");
-        //             var body = $("<span></span>").append(datwo[index].body + "<br>");            
-        //             var id = $("<span></span>").append("id = " + datwo[index].id);
-        //             var post = $("<div></div>").append(title).append(body).append(id).attr("id", "post");
-        //             fetchUserName(datwo[index].userId, body);
-
-        //             $(".posts").append(post);
-        //         } 
-        //     }
-        // });
          
         $("#home").click
         (
