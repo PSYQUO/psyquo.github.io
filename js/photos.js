@@ -11,6 +11,8 @@ for(var i = 0; i < hashes.length; i++)
     vars[hash[0]] = hash[1]; // Object attribute
 }
 
+var data;
+
 $(document).ready
 (
     function()
@@ -35,17 +37,52 @@ $(document).ready
         ({
             url: root + "/photos" + query,
             method: "GET"
-        }).done(function(data)
+        }).done(function(fetchedData)
         {
-            // for(curIndex = data.length - 1; curIndex >= data.length - 10 && curIndex >= 0; curIndex--)
-            for(curIndex = data.length - 1; curIndex >= data.length - 100; curIndex--)
-            {
-                var thumbnail = $("<div></div>").append("<img src=\"" + data[curIndex].thumbnailUrl + "\"/>");
-                var id = $("<span></span>").append("id = " + data[curIndex].id);
-                var gridItem = $("<div></div>").append(thumbnail).append(id).attr("id", "grid-item");
 
-                $(".photo-grid").append(gridItem);
-            }              
+            data = fetchedData;
+            // for(curIndex = data.length - 1; curIndex >= data.length - 10 && curIndex >= 0; curIndex--)
+            // for(curIndex = data.length - 1; curIndex >= data.length - 100; curIndex--)
+            // {
+            //     var thumbnail = $("<div></div>").append("<img src=\"" + data[curIndex].thumbnailUrl + "\"/>");
+            //     var id = $("<span></span>").append("id = " + data[curIndex].id);
+            //     var gridItem = $("<div></div>").append(thumbnail).append(id).attr("id", "grid-item");
+
+            //     // thumbnail.click
+            //     // (
+            //     //     function()
+            //     //     {
+            //     //         $(".sidebar").css("filter", "blur(10px)");
+            //     //         $(".content").css("filter", "blur(10px)");
+            //     //         $(".popup").css("visibility", "visible");
+            //     //         $(".popup").css("opacity", "0.4");
+
+            //     //         $("#popup-photo").append("<img src=\"" + [curIndex].url + "\"/>");
+            //     //     } 
+            //     // );
+
+            //     $(".photo-grid").append(gridItem);
+            // }
+
+            for(var i = data.length - 1; i >= data.length - 100; i--)
+            {
+                var thumbnail = $("<div></div>").append("<img src=\"" + data[i].thumbnailUrl + "\"/>");
+                var id = $("<span></span>").append("id = " + data[i].id);
+                var tile = $("<div></div>").append(thumbnail).append(id).attr("id", "grid-item");
+
+                tile.click
+                (
+                    function()
+                    {
+                        $(".sidebar").css("filter", "blur(10px)");
+                        $(".content").css("filter", "blur(10px)");
+                        $(".popup").css("visibility", "visible");
+                        $(".popup").css("opacity", "0.4");
+                    } 
+                ); 
+
+                $(".photo-grid").append(tile);
+            }               
         });
          
         $("#home").click
@@ -65,3 +102,4 @@ $(document).ready
         );  
     }
 );
+
