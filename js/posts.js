@@ -11,6 +11,9 @@ for(var i = 0; i < hashes.length; i++)
     vars[hash[0]] = hash[1]; // Object attribute
 }
 
+var dataArr = [];
+var pos;
+
 function fetchUserName(userId, body) // Works because of object reference
 {
     $.ajax
@@ -34,7 +37,22 @@ function fetchUserName(userId, body) // Works because of object reference
     });
 }
 
-var curIndex;
+function displayMore()
+{
+    var i;
+    for(i = pos; i >= pos - 10 && i >= 0 ; i--)
+    {
+        var title = $("<span></span>").append(dataArr[i].title + "<br>").attr("id", "post-title");
+        var body = $("<span></span>").append(dataArr[i].body + "<br>").attr("id", "post-body");
+        // var id = $("<span></span>").append("id = " + dataArr[i].id);
+        var post = $("<div></div>").append(title).append(body).attr("id", "post");
+        fetchUserName(dataArr[i].userId, body);
+
+        $(".posts").append(post);
+    } 
+
+    pos = i;
+}
 
 $(document).ready
 (
@@ -62,40 +80,33 @@ $(document).ready
             method: "GET"
         }).done(function(data)
         {
-            // for(curIndex = data.length - 1; curIndex >= data.length - 10 && curIndex >= 0; curIndex--)
-            for(curIndex = data.length - 1; curIndex >= 0; curIndex--)
+            var i;
+
+            for(i = 0; i < data.length; i++)
+                dataArr.push(data[i]);
+
+            for(i = data.length - 1; i >= data.length - 10; i--)
             {
-                var title = $("<span></span>").append(data[curIndex].title + "<br>").attr("id", "post-title");
-                var body = $("<span></span>").append(data[curIndex].body + "<br>").attr("id", "post-body");
-                var id = $("<span></span>").append("id = " + data[curIndex].id);
-                var post = $("<div></div>").append(title).append(body).append(id).attr("id", "post");
-                fetchUserName(data[curIndex].userId, body);
+                var title = $("<span></span>").append(dataArr[i].title + "<br>").attr("id", "post-title");
+                var body = $("<span></span>").append(dataArr[i].body + "<br>").attr("id", "post-body");
+                // var id = $("<span></span>").append("id = " + dataArr[i].id);
+                var post = $("<div></div>").append(title).append(body).attr("id", "post");
+                fetchUserName(dataArr[i].userId, body);
 
                 $(".posts").append(post);
-            }              
+            }     
+
+            pos = i;         
         });
 
-        
-        // $(".content").on('scroll', function()
-        // { 
-        //     console.log($(".content").scroll());
-        //     console.log($(".content").height());
+        $(".content").on('scroll', function()
+        { 
+            if($(".content").scrollTop() + $(".content").innerHeight() >= $(".content")[0].scrollHeight)
+            { 
+                displayMore();
+            }
+        });
 
-        //     if($(".content").scrollTop() > $(".content").height() - 100)
-        //     { 
-        //         for(; index >= datwo.length - 10 && index >= 0; index--)
-        //         {
-        //             var title = $("<span></span>").append(datwo[index].title + "<br>").attr("id", "post-title");
-        //             var body = $("<span></span>").append(datwo[index].body + "<br>");            
-        //             var id = $("<span></span>").append("id = " + datwo[index].id);
-        //             var post = $("<div></div>").append(title).append(body).append(id).attr("id", "post");
-        //             fetchUserName(datwo[index].userId, body);
-
-        //             $(".posts").append(post);
-        //         } 
-        //     }
-        // });
-         
         $("#home").click
         (
             function()

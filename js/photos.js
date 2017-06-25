@@ -11,6 +11,9 @@ for(var i = 0; i < hashes.length; i++)
     vars[hash[0]] = hash[1]; // Object attribute
 }
 
+var dataArr = [];
+var pos;
+
 function fetchAlbum(albumId)
 {
     $.ajax
@@ -25,7 +28,6 @@ function fetchAlbum(albumId)
             method: "GET"
         }).done(function(data)
         {
-
             var link = $("<span></span").append(data.username).attr("id", "photo-username");
             var user = $("<span></span>").append("by ").append(link).append("<br>");
 
@@ -43,7 +45,37 @@ function fetchAlbum(albumId)
     });
 }
 
-var dataArr = [];
+function displayMore()
+{
+    var i;
+    for(i = pos; i >= pos - 36 && i >= 0; i--)
+    {
+        var thumbnail = $("<div></div>").append("<img src=\"" + dataArr[i].thumbnailUrl + "\"/>");
+        // var id = $("<span></span>").append("id = " + dataArr[i].id);
+        var tile = $("<div></div>").append(thumbnail).attr("id", "grid-item");
+
+        tile.click
+        (
+            function()
+            {
+                $(".sidebar").css("filter", "blur(10px)");
+                $(".content").css("filter", "blur(10px)");
+                $(".popup").css("visibility", "visible");
+                $(".popup").css("opacity", "1");
+
+                console.log((dataArr.length) - $(this).index());
+
+                $("#popup-photo").html("<img src=\"" + dataArr[dataArr.length - 1 - $(this).index()].url + "\"/>");
+                $("#photo-title").html(dataArr[dataArr.length - 1 - $(this).index()].title + "<br>");
+                fetchAlbum(dataArr[dataArr.length -1 - $(this).index()].albumId);
+            } 
+        ); 
+
+        $(".photo-grid").append(tile);
+    } 
+
+    pos = i;
+}
 
 $(document).ready
 (
@@ -64,21 +96,23 @@ $(document).ready
         //     $(".posts").append(back);
         // }
 
-        // Posts
+        // Photo
         $.ajax
         ({
             url: root + "/photos" + query,
             method: "GET"
         }).done(function(data)
         {
-            for(var i = data.length - 1; i >= data.length - 100; i--)
-            {
-                var thumbnail = $("<div></div>").append("<img src=\"" + data[i].thumbnailUrl + "\"/>");
-                var id = $("<span></span>").append("id = " + data[i].id);
-                var tile = $("<div></div>").append(thumbnail).append(id).attr("id", "grid-item");
+            var i;
 
-                // tile.refData = data[i];
+            for(i = 0; i < data.length; i++)
                 dataArr.push(data[i]);
+            
+            for(i = data.length - 1; i >= data.length - 90; i--)
+            {
+                var thumbnail = $("<div></div>").append("<img src=\"" + dataArr[i].thumbnailUrl + "\"/>");
+                // var id = $("<span></span>").append("id = " + dataArr[i].id);
+                var tile = $("<div></div>").append(thumbnail).attr("id", "grid-item");
 
                 tile.click
                 (
@@ -89,14 +123,25 @@ $(document).ready
                         $(".popup").css("visibility", "visible");
                         $(".popup").css("opacity", "1");
 
-                        $("#popup-photo").html("<img src=\"" + dataArr[$(this).index()].url + "\"/>");
-                        $("#photo-title").html(dataArr[$(this).index()].title + "<br>");
-                        fetchAlbum(dataArr[$(this).index()].albumId);
+                        console.log((dataArr.length) - $(this).index());
+
+                        $("#popup-photo").html("<img src=\"" + dataArr[dataArr.length - 1 - $(this).index()].url + "\"/>");
+                        $("#photo-title").html(dataArr[dataArr.length - 1 - $(this).index()].title + "<br>");
+                        fetchAlbum(dataArr[dataArr.length -1 - $(this).index()].albumId);
                     } 
                 ); 
 
-                $(".photo-grid").append(tile);
-            }            
+                $(".photo-grid").append(tile);               
+            } 
+            pos = i;   
+        });
+
+        $(".content").on('scroll', function()
+        { 
+            if($(".content").scrollTop() + $(".content").innerHeight() >= $(".content")[0].scrollHeight)
+            { 
+                displayMore();
+            }
         });
 
         $(".popup").click
