@@ -152,6 +152,10 @@ $(document).ready
                 $(".content").css("filter", "none");
                 $(".popup").css("visibility", "hidden");
                 $(".popup").css("opacity", "0");
+
+                $("#popup-photo").empty();
+                $("#photo-title").empty();
+                $("#photo-user").empty();
             }
         );
          

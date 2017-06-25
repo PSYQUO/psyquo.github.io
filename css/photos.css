@@ -46,14 +46,13 @@
 .popup-content
 {
     text-align: center;
-    vertical-align: middle;
     color: white;
     font-size: 20px;
 }
 
 #popup-photo
 {
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 #photo-title
