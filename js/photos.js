@@ -11,30 +11,38 @@ for(var i = 0; i < hashes.length; i++)
     vars[hash[0]] = hash[1]; // Object attribute
 }
 
-var DD = [];
-var tileArr;
+function fetchAlbum(albumId)
+{
+    $.ajax
+    ({
+        url: root + "/albums?id=" + albumId,
+        method: "GET"
+    }).done(function(data)
+    {
+        $.ajax
+        ({
+            url: root + "/users/" + data[0].userId,
+            method: "GET"
+        }).done(function(data)
+        {
 
-// function addTileClick(tile, data)
-// {
-//     tile.refData = data;
+            var link = $("<span></span").append(data.username).attr("id", "photo-username");
+            var user = $("<span></span>").append("by ").append(link).append("<br>");
 
-//     tile.click
-//     (
-//         function()
-//         {
-//             $(".sidebar").css("filter", "blur(10px)");
-//             $(".content").css("filter", "blur(10px)");
-//             $(".popup").css("visibility", "visible");
-//             $(".popup").css("opacity", "0.4");
+            link.click
+            (
+                function()
+                {
+                    window.location.href = "users.html?id=" + data.id;
+                }
+            )
+            
+            $("#photo-user").html(user);
+        });
+    });
+}
 
-//             console.log(this.refData);
-
-//             console.log(DD);
-
-//             $("#popup-photo").append("<img src=\"" + this.refData + "\"/>");
-//         } 
-//     ); 
-// }
+var dataArr = [];
 
 $(document).ready
 (
@@ -68,7 +76,8 @@ $(document).ready
                 var id = $("<span></span>").append("id = " + data[i].id);
                 var tile = $("<div></div>").append(thumbnail).append(id).attr("id", "grid-item");
 
-                data[i].tile = tile;
+                // tile.refData = data[i];
+                dataArr.push(data[i]);
 
                 tile.click
                 (
@@ -77,17 +86,16 @@ $(document).ready
                         $(".sidebar").css("filter", "blur(10px)");
                         $(".content").css("filter", "blur(10px)");
                         $(".popup").css("visibility", "visible");
-                        $(".popup").css("opacity", "0.4");
+                        $(".popup").css("opacity", "1");
 
-                        for(var k = 0; k < DD.length; k++)
-                            console.log(DD[k].tile);
+                        $("#popup-photo").html("<img src=\"" + dataArr[$(this).index()].url + "\"/>");
+                        $("#photo-title").html(dataArr[$(this).index()].title + "<br>");
+                        fetchAlbum(dataArr[$(this).index()].albumId);
                     } 
                 ); 
 
                 $(".photo-grid").append(tile);
-            }           
-
-            DD = data;    
+            }            
         });
 
         $(".popup").click
