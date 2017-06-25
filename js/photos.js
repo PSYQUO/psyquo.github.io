@@ -37,7 +37,8 @@ function fetchAlbum(albumId)
                 }
             )
             
-            $("#photo-user").html(user);
+            $("#photo-user").empty();
+            $("#photo-user").append(user);
         });
     });
 }
