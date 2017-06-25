@@ -40,7 +40,7 @@ function fetchUserName(userId, body) // Works because of object reference
 function displayMore()
 {
     var i;
-    for(i = pos; i >= pos - 10 && i >= 0 ; i--)
+    for(i = pos; i >= 0 && i >= pos - 10 ; i--)
     {
         var title = $("<span></span>").append(dataArr[i].title + "<br>").attr("id", "post-title");
         var body = $("<span></span>").append(dataArr[i].body + "<br>").attr("id", "post-body");
@@ -85,7 +85,7 @@ $(document).ready
             for(i = 0; i < data.length; i++)
                 dataArr.push(data[i]);
 
-            for(i = data.length - 1; i >= data.length - 10; i--)
+            for(i = data.length - 1; i >= 0 && i >= data.length - 10; i--)
             {
                 var title = $("<span></span>").append(dataArr[i].title + "<br>").attr("id", "post-title");
                 var body = $("<span></span>").append(dataArr[i].body + "<br>").attr("id", "post-body");

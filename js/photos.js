@@ -48,7 +48,7 @@ function fetchAlbum(albumId)
 function displayMore()
 {
     var i;
-    for(i = pos; i >= pos - 36 && i >= 0; i--)
+    for(i = pos; i >= 0 && i >= pos - 36 ; i--)
     {
         var thumbnail = $("<div></div>").append("<img src=\"" + dataArr[i].thumbnailUrl + "\"/>");
         // var id = $("<span></span>").append("id = " + dataArr[i].id);
@@ -108,8 +108,9 @@ $(document).ready
             for(i = 0; i < data.length; i++)
                 dataArr.push(data[i]);
             
-            for(i = data.length - 1; i >= data.length - 90; i--)
+            for(i = data.length - 1; i >= 0 && i >= data.length - 90; i--)
             {
+                console.log(i);
                 var thumbnail = $("<div></div>").append("<img src=\"" + dataArr[i].thumbnailUrl + "\"/>");
                 // var id = $("<span></span>").append("id = " + dataArr[i].id);
                 var tile = $("<div></div>").append(thumbnail).attr("id", "grid-item");
