@@ -11,7 +11,30 @@ for(var i = 0; i < hashes.length; i++)
     vars[hash[0]] = hash[1]; // Object attribute
 }
 
-var data;
+var DD = [];
+var tileArr;
+
+// function addTileClick(tile, data)
+// {
+//     tile.refData = data;
+
+//     tile.click
+//     (
+//         function()
+//         {
+//             $(".sidebar").css("filter", "blur(10px)");
+//             $(".content").css("filter", "blur(10px)");
+//             $(".popup").css("visibility", "visible");
+//             $(".popup").css("opacity", "0.4");
+
+//             console.log(this.refData);
+
+//             console.log(DD);
+
+//             $("#popup-photo").append("<img src=\"" + this.refData + "\"/>");
+//         } 
+//     ); 
+// }
 
 $(document).ready
 (
@@ -37,38 +60,15 @@ $(document).ready
         ({
             url: root + "/photos" + query,
             method: "GET"
-        }).done(function(fetchedData)
+        }).done(function(data)
         {
-
-            data = fetchedData;
-            // for(curIndex = data.length - 1; curIndex >= data.length - 10 && curIndex >= 0; curIndex--)
-            // for(curIndex = data.length - 1; curIndex >= data.length - 100; curIndex--)
-            // {
-            //     var thumbnail = $("<div></div>").append("<img src=\"" + data[curIndex].thumbnailUrl + "\"/>");
-            //     var id = $("<span></span>").append("id = " + data[curIndex].id);
-            //     var gridItem = $("<div></div>").append(thumbnail).append(id).attr("id", "grid-item");
-
-            //     // thumbnail.click
-            //     // (
-            //     //     function()
-            //     //     {
-            //     //         $(".sidebar").css("filter", "blur(10px)");
-            //     //         $(".content").css("filter", "blur(10px)");
-            //     //         $(".popup").css("visibility", "visible");
-            //     //         $(".popup").css("opacity", "0.4");
-
-            //     //         $("#popup-photo").append("<img src=\"" + [curIndex].url + "\"/>");
-            //     //     } 
-            //     // );
-
-            //     $(".photo-grid").append(gridItem);
-            // }
-
             for(var i = data.length - 1; i >= data.length - 100; i--)
             {
                 var thumbnail = $("<div></div>").append("<img src=\"" + data[i].thumbnailUrl + "\"/>");
                 var id = $("<span></span>").append("id = " + data[i].id);
                 var tile = $("<div></div>").append(thumbnail).append(id).attr("id", "grid-item");
+
+                data[i].tile = tile;
 
                 tile.click
                 (
@@ -78,12 +78,28 @@ $(document).ready
                         $(".content").css("filter", "blur(10px)");
                         $(".popup").css("visibility", "visible");
                         $(".popup").css("opacity", "0.4");
+
+                        for(var k = 0; k < DD.length; k++)
+                            console.log(DD[k].tile);
                     } 
                 ); 
 
                 $(".photo-grid").append(tile);
-            }               
+            }           
+
+            DD = data;    
         });
+
+        $(".popup").click
+        (
+            function()
+            {
+                $(".sidebar").css("filter", "none");
+                $(".content").css("filter", "none");
+                $(".popup").css("visibility", "hidden");
+                $(".popup").css("opacity", "0");
+            }
+        );
          
         $("#home").click
         (
