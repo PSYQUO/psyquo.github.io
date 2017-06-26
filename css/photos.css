@@ -59,13 +59,3 @@
 {
     font-style: italic;
 }
-
-#photo-username
-{
-    text-decoration: underline;
-}
-
-#photo-username:hover
-{
-    cursor: pointer;
-}

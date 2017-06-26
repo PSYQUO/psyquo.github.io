@@ -16,6 +16,11 @@ var pos;
 
 function fetchAlbum(albumId)
 {
+    $("#photo-user").empty();
+    var user = $("<span></span>");
+    var album = $("<span></span>");
+    $("#photo-user").append(user).append(album);
+
     $.ajax
     ({
         url: root + "/albums?id=" + albumId,
@@ -28,21 +33,41 @@ function fetchAlbum(albumId)
             method: "GET"
         }).done(function(data)
         {
-            var link = $("<span></span").append(data.username).attr("id", "photo-username");
-            var user = $("<span></span>").append("by ").append(link).append("<br>");
+            var userlink = $("<span></span").append(data.username).attr("id", "link");
+            user.append("by ").append(userlink).append("<br>");
 
-            link.click
+            userlink.click
             (
                 function()
                 {
                     window.location.href = "users.html?id=" + data.id;
                 }
             )
-            
-            $("#photo-user").empty();
-            $("#photo-user").append(user);
         });
+
+        var albumlink = $("<span></span").append(data[0].title).attr("id", "link");
+        album.append("from ").append(albumlink).append("<br>");
+
+        albumlink.click
+        (
+            function()
+            {
+                window.location.href = "photos.html?albumId=" + data[0].id;
+            }
+        )
     });
+}
+
+function showPopup(tile)
+{
+    $(".sidebar").css("filter", "blur(10px)");
+    $(".content").css("filter", "blur(10px)");
+    $(".popup").css("visibility", "visible");
+    $(".popup").css("opacity", "1");
+
+    $("#popup-photo").html("<img src=\"" + dataArr[dataArr.length - 1 - tile.index()].url + "\"/>");
+    $("#photo-title").html(dataArr[dataArr.length - 1 - tile.index()].title + "<br>");
+    fetchAlbum(dataArr[dataArr.length -1 - tile.index()].albumId);
 }
 
 function displayMore()
@@ -51,29 +76,16 @@ function displayMore()
     for(i = pos; i >= 0 && i >= pos - 36 ; i--)
     {
         var thumbnail = $("<div></div>").append("<img src=\"" + dataArr[i].thumbnailUrl + "\"/>");
-        // var id = $("<span></span>").append("id = " + dataArr[i].id);
         var tile = $("<div></div>").append(thumbnail).attr("id", "grid-item");
 
-        tile.click
-        (
-            function()
-            {
-                $(".sidebar").css("filter", "blur(10px)");
-                $(".content").css("filter", "blur(10px)");
-                $(".popup").css("visibility", "visible");
-                $(".popup").css("opacity", "1");
+        // for debugging
+        // var id = $("<span></span>").append("id = " + dataArr[i].id);
+        // var tile = $("<div></div>").append(thumbnail).append(id).attr("id", "grid-item");
 
-                console.log((dataArr.length) - $(this).index());
-
-                $("#popup-photo").html("<img src=\"" + dataArr[dataArr.length - 1 - $(this).index()].url + "\"/>");
-                $("#photo-title").html(dataArr[dataArr.length - 1 - $(this).index()].title + "<br>");
-                fetchAlbum(dataArr[dataArr.length -1 - $(this).index()].albumId);
-            } 
-        ); 
+        tile.click(function(){showPopup($(this));}); 
 
         $(".photo-grid").append(tile);
     } 
-
     pos = i;
 }
 
@@ -81,9 +93,9 @@ $(document).ready
 (
     function()
     {
-        // if(vars.hasOwnProperty("userId"))
+        // if(vars.hasOwnProperty("albumId"))
         // {
-        //     var back = $("<div></div>").append("back to Profile").attr("id", "nav-button");
+        //     var back = $("<div></div>").append("back to previous page").attr("id", "nav-button");
 
         //     back.click
         //     (
@@ -93,7 +105,7 @@ $(document).ready
         //         }
         //     );
 
-        //     $(".posts").append(back);
+        //     $(".photos").append(back);
         // }
 
         // Photo
@@ -110,27 +122,11 @@ $(document).ready
             
             for(i = data.length - 1; i >= 0 && i >= data.length - 90; i--)
             {
-                console.log(i);
                 var thumbnail = $("<div></div>").append("<img src=\"" + dataArr[i].thumbnailUrl + "\"/>");
                 // var id = $("<span></span>").append("id = " + dataArr[i].id);
                 var tile = $("<div></div>").append(thumbnail).attr("id", "grid-item");
 
-                tile.click
-                (
-                    function()
-                    {
-                        $(".sidebar").css("filter", "blur(10px)");
-                        $(".content").css("filter", "blur(10px)");
-                        $(".popup").css("visibility", "visible");
-                        $(".popup").css("opacity", "1");
-
-                        console.log((dataArr.length) - $(this).index());
-
-                        $("#popup-photo").html("<img src=\"" + dataArr[dataArr.length - 1 - $(this).index()].url + "\"/>");
-                        $("#photo-title").html(dataArr[dataArr.length - 1 - $(this).index()].title + "<br>");
-                        fetchAlbum(dataArr[dataArr.length -1 - $(this).index()].albumId);
-                    } 
-                ); 
+                tile.click(function(){showPopup($(this));}); 
 
                 $(".photo-grid").append(tile);               
             } 
@@ -175,6 +171,14 @@ $(document).ready
                 window.location.href = "photos.html";
             }
         );  
+
+        $("#albums").click
+        (
+            function()
+            {
+                window.location.href = "albums.html";
+            }
+        );
     }
 );
 

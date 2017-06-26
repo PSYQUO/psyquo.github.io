@@ -59,3 +59,13 @@ body
     background-color:#ccc;
     cursor: pointer;
 }
+
+#link
+{
+    text-decoration: underline;
+}
+
+#link:hover
+{
+    cursor: pointer;
+}

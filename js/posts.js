@@ -22,7 +22,7 @@ function fetchUserName(userId, body) // Works because of object reference
         method: "GET"
     }).done(function(data)
     {
-        var link = $("<span></span").append(data.username).attr("id", "post-user");
+        var link = $("<span></span").append(data.username).attr("id", "link");
         var user = $("<span></span>").append("by ").append(link).append("<br>");
 
         link.click
@@ -44,8 +44,12 @@ function displayMore()
     {
         var title = $("<span></span>").append(dataArr[i].title + "<br>").attr("id", "post-title");
         var body = $("<span></span>").append(dataArr[i].body + "<br>").attr("id", "post-body");
-        // var id = $("<span></span>").append("id = " + dataArr[i].id);
         var post = $("<div></div>").append(title).append(body).attr("id", "post");
+
+        // for debugging
+        // var id = $("<span></span>").append("id = " + dataArr[i].id);
+        // var post = $("<div></div>").append(title).append(body).append(id).attr("id", "post");
+
         fetchUserName(dataArr[i].userId, body);
 
         $(".posts").append(post);
@@ -61,15 +65,7 @@ $(document).ready
         if(vars.hasOwnProperty("userId"))
         {
             var back = $("<div></div>").append("back to Profile").attr("id", "nav-button");
-
-            back.click
-            (
-                function()
-                {
-                    window.history.back();
-                }
-            );
-
+            back.click(function(){window.history.back();});
             $(".posts").append(back);
         }
 
@@ -89,8 +85,12 @@ $(document).ready
             {
                 var title = $("<span></span>").append(dataArr[i].title + "<br>").attr("id", "post-title");
                 var body = $("<span></span>").append(dataArr[i].body + "<br>").attr("id", "post-body");
-                // var id = $("<span></span>").append("id = " + dataArr[i].id);
                 var post = $("<div></div>").append(title).append(body).attr("id", "post");
+
+                // for debugging
+                // var id = $("<span></span>").append("id = " + dataArr[i].id);
+                // var post = $("<div></div>").append(title).append(body).append(id).attr("id", "post");
+                
                 fetchUserName(dataArr[i].userId, body);
 
                 $(".posts").append(post);
@@ -120,6 +120,14 @@ $(document).ready
             function()
             {
                 window.location.href = "photos.html";
+            }
+        ); 
+
+        $("#albums").click
+        (
+            function()
+            {
+                window.location.href = "albums.html";
             }
         );  
     }

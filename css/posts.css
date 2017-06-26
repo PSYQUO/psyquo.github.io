@@ -13,13 +13,11 @@
 
 #post
 {
-    background-color: #c5f8c5;
     border-radius: 5px;
     box-shadow: 0px 0px 10px #ccc;
     margin: 10px 0px 10px 0px;
     padding: 5px;
     transition-duration: 100ms;
-    
 }
 
 #post-body
@@ -37,14 +35,4 @@
     font-weight: 400;
     font-size: 20px;
     margin: 0px 0px 10px 0px;
-}
-
-#post-user
-{
-    text-decoration: underline;
-}
-
-#post-user:hover
-{
-    cursor: pointer;
 }

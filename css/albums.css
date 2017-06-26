@@ -1,0 +1,77 @@
+.albums
+{
+    box-sizing: border-box;
+    padding: 10px 50px 10px 50px;
+    width: 100%;
+}
+
+#albums-header
+{
+    font-size: 30px;
+    font-weight: 600;
+}
+
+#album
+{
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #ccc;
+    margin: 10px 0px 10px 0px;
+    padding: 5px;
+    transition-duration: 100ms;
+}
+
+#album:hover
+{
+    box-shadow: 0px 0px 10px #777;
+}
+
+#album-title
+{
+    font-weight: 400;
+    font-size: 20px;
+    margin: 0px 0px 10px 0px;
+}
+
+#album-photos
+{
+    height: 150px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: hidden;
+    padding: 5px 0px 5px 0px;
+}
+
+#album-username
+{
+    text-decoration: underline;
+}
+
+#more-button
+{
+    float: right;
+    width: 150px;
+    height: 150px;
+    margin: 5px 3px 5px 0px;
+    border-radius: 2px;
+    text-align: center;
+    transition-duration: 100ms;
+}
+
+#more-button:hover
+{
+    box-shadow: 0px 0px 10px #ccc;
+}
+
+#more-img
+{
+    margin-top: 35px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+#album-thumbnails
+{
+    margin-right: auto;
+    margin-bottom: 5px;
+}

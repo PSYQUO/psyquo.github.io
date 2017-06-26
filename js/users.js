@@ -43,8 +43,11 @@ $(document).ready
             {
                 var title = $("<span></span>").append(data[i].title + "<br>").attr("id", "post-title");
                 var body = $("<span></span>").append(data[i].body + "<br>").attr("id", "post-body");
-                // var id = $("<span></span>").text("id = " + data[i].id);
                 var post = $("<div></div>").append(title).append(body).attr("id", "post");
+
+                // for debugging
+                // var id = $("<span></span>").append("id = " + dataArr[i].id);
+                // var post = $("<div></div>").append(title).append(body).append(id).attr("id", "post");
 
                 $(".posts").append(post);
             }   
@@ -72,6 +75,14 @@ $(document).ready
             {
                 window.location.href = "photos.html";
             }
-        );        
+        ); 
+
+        $("#albums").click
+        (
+            function()
+            {
+                window.location.href = "albums.html";
+            }
+        );       
     }
 );
