@@ -11,6 +11,12 @@
     font-weight: 600;
 }
 
+#photos-album
+{
+    margin-left: 5px;
+    font-size: 22px;
+}
+
 .photo-grid
 {
     display: flex;
