@@ -50,6 +50,32 @@ $(document).ready
             $("#header-username").append(" aka \"" + data.username + "\"<br>");
             $("#header-email").append(data.email + "<br>");
             $("#header-address").append(data.address.suite + ", " + data.address.street + ", " + data.address.city + " | ZIP code: " + data.address.zipcode + "<br>");
+
+            var geo = new google.maps.LatLng(data.address.geo.lat, data.address.geo.lng);
+
+            var mapOptions = 
+            {
+                center: geo,
+                zoom: 2,
+                navigationControl: false,
+                mapTypeControl: false,
+                scaleControl: false,
+                streetViewControl: false,
+                mapTypeId: 'roadmap'
+            }
+
+            var map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
+
+            var marker = new google.maps.Marker
+            ({
+                position: geo,
+                map: map
+            });
+
+            // $("#header-address").hover(function()
+            // {
+            //     $("#google-map").show();
+            // });
             $("#header-phone").append(data.phone + "<br>");
             $("#header-website").append(data.website + "<br>");
             $("#header-companyname").append(data.company.name + "<br>");
