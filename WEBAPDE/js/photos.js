@@ -101,7 +101,7 @@ $(document).ready
                 method: "GET"
             }).done(function(data)
             {
-                $("#photos-album").append(data[0].title);
+                $("#photos-album").append("from " + data[0].title);
             });
 
             $("#nav-button").append("back to Albums");
