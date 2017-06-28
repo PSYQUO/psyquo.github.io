@@ -93,20 +93,20 @@ $(document).ready
 (
     function()
     {
-        // if(vars.hasOwnProperty("albumId"))
-        // {
-        //     var back = $("<div></div>").append("back to previous page").attr("id", "nav-button");
+        if(vars.hasOwnProperty("albumId"))
+        {
+            $.ajax
+            ({
+                url: root + "/albums?id=" + vars.albumId,
+                method: "GET"
+            }).done(function(data)
+            {
+                $("#photos-album").append(data[0].title);
+            });
 
-        //     back.click
-        //     (
-        //         function()
-        //         {
-        //             window.history.back();
-        //         }
-        //     );
-
-        //     $(".photos").append(back);
-        // }
+            $("#nav-button").append("back to Albums");
+            $("#nav-button").click(function(){window.history.back();});
+        }
 
         // Photo
         $.ajax

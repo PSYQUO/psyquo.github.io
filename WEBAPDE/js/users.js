@@ -11,6 +11,30 @@ for(var i = 0; i < hashes.length; i++)
     vars[hash[0]] = hash[1]; // Object attribute
 }
 
+function fetchUserandPhotos(album, albumId)
+{
+    var albumphotos = $("<div></div>").attr("id", "album-photos");
+    album.append(albumphotos);
+
+    $.ajax
+    ({
+        url: root + "/photos?albumId=" + albumId,
+        method: "GET"
+    }).done(function(data)
+    {
+        for(var k = 0; k < 10; k++)
+        {
+            var rng = Math.floor(Math.random() * data.length);
+
+            var photo = $("<div></div>").append("<img src=\"" + data[rng].thumbnailUrl + "\"/>").attr("id", "album-thumbnails");
+
+            albumphotos.append(photo);
+        }
+
+        album.append(albumphotos);
+    });
+}
+
 $(document).ready
 (
     function()
@@ -51,6 +75,25 @@ $(document).ready
 
                 $(".posts").append(post);
             }   
+            $(".posts").append("<hr>");
+        });
+
+        $.ajax
+        ({
+            url: root + "/albums?userId=" + vars.id,
+            method: "GET"
+        }).done(function(data)
+        {      
+            for(var i = data.length - 1; i >= 0 && i >= data.length - 3; i--)
+            {
+                var title = $("<span></span>").append(data[i].title).attr("id", "album-title");
+                var album = $("<div></div>").append(title).attr("id", "album");
+
+                fetchUserandPhotos(album, data[i].id);
+
+                $(".albums").append(album);
+
+            }   
         });
 
         $(".posts #nav-button").click
@@ -58,6 +101,14 @@ $(document).ready
             function()
             {
                 window.location.href = "index.html?userId=" + vars.id;
+            }
+        )
+
+        $(".albums #nav-button").click
+        (
+            function()
+            {
+                window.location.href = "albums.html?userId=" + vars.id;
             }
         )
 

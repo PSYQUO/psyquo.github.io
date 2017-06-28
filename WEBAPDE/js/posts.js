@@ -66,9 +66,8 @@ $(document).ready
     {
         if(vars.hasOwnProperty("userId"))
         {
-            var back = $("<div></div>").append("back to Profile").attr("id", "nav-button");
-            back.click(function(){window.history.back();});
-            $(".posts").append(back);
+            $("#nav-button").append("back to Profile");
+            $("#nav-button").click(function(){window.history.back();});
         }
 
         // Posts

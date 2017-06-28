@@ -23,6 +23,13 @@ function fetchUserandPhotos(album, albumId, userId)
     var moretext = $("<div></div>").append("See all");
     var more = $("<div></div>").append(moreimg).append(moretext).attr("id", "more-button");
 
+    more.click
+    (
+        function()
+        {
+            window.location.href = "photos.html?albumId=" + albumId;
+        }
+    )
 
     album.append(more);
 
@@ -87,20 +94,11 @@ $(document).ready
 (
     function()
     {
-        // if(vars.hasOwnProperty("userId"))
-        // {
-        //     var back = $("<div></div>").append("back to Profile").attr("id", "nav-button");
-
-        //     back.click
-        //     (
-        //         function()
-        //         {
-        //             window.history.back();
-        //         }
-        //     );
-
-        //     $(".posts").append(back);
-        // }
+        if(vars.hasOwnProperty("userId"))
+        {
+            $("#nav-button").append("back to Profile");
+            $("#nav-button").click(function(){window.history.back();});
+        }
 
         // Album
         $.ajax
@@ -117,7 +115,6 @@ $(document).ready
             for(i = data.length - 1; i >= 0 && i >= data.length - 10; i--)
             {
                 var title = $("<span></span>").append(dataArr[i].title).attr("id", "album-title");
-
                 var album = $("<div></div>").append(title).attr("id", "album");
 
                 fetchUserandPhotos(album, data[i].id, data[i].userId);
