@@ -65,7 +65,7 @@ function showPopup(tile)
     $(".popup").css("visibility", "visible");
     $(".popup").css("opacity", "1");
 
-    $("#popup-photo").html("<img src=\"" + dataArr[dataArr.length - 1 - tile.index()].url + "\"/>");
+    $("#popup-photo").html("<img id=\"popup-photo-img\" src=\"" + dataArr[dataArr.length - 1 - tile.index()].url + "\"/>");
     $("#photo-title").html(dataArr[dataArr.length - 1 - tile.index()].title + "<br>");
     fetchAlbum(dataArr[dataArr.length -1 - tile.index()].albumId);
 }
