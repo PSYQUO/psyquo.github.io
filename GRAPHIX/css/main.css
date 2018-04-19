@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Nova+Mono');
+@import url('https://fonts.googleapis.com/css?family=Orbitron:400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Jura:300,400,500,700');
+
+* {
+    font-family: 'Orbitron';
+}
+
+body {
+    margin: 0;
+    color: white;
+}
+
+canvas {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
