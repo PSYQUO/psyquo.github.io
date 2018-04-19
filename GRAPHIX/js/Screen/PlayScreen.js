@@ -23,18 +23,16 @@ class PlayScreen
     {
         document.body.appendChild(imports.score.cloneNode(true));
         document.body.appendChild(imports.judgement.cloneNode(true));
+        document.body.appendChild(imports.info.cloneNode(true));
 
         this.scene = new THREE.Scene();
 
         this.camera = new THREE.PerspectiveCamera(
-            85,
+            80,
             window.innerWidth / window.innerHeight,
             0.1,
             50
         );
-
-        // this.camera = new THREE.OrthographicCamera(
-        //     -5, 5, 8, -2, 1, 50);
         
         this.camera.translateY(2.5);
         this.camera.translateZ(1);

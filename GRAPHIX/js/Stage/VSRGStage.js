@@ -45,7 +45,28 @@ class VSRGStage extends Stage
      */
     displayJudgement(note)
     {
-        document.getElementById("judgement").innerHTML = note.judgement;
+        let judgement = document.getElementById("judgement");
+
+        switch(note.judgement)
+        {
+            case 'Perfect':
+                judgement.style.color = "#FFFFFF";
+                break;
+            case 'Good':
+                judgement.style.color = "#81C784";
+                break;
+            case 'Bad':
+                judgement.style.color = "#FFEB3B";
+                break;
+            case 'Miss':
+                judgement.style.color = "#F44336";
+                break;
+        }
+
+        judgement.innerHTML = note.judgement;
+        judgement.style.animation = 'none';
+        judgement.offsetHeight; /* trigger reflow */
+        judgement.style.animation = null;
     }
 
     /**
@@ -65,7 +86,7 @@ class VSRGStage extends Stage
             {
                 visualNote = new VisualNote(0.25);
             }
-            
+
             visualNote.mesh.translateZ(-(notes[i].starttime * this._speed) - (this._track.offset * this._speed) - visualNote.zoffset - this._visualOffset);
 
             visualNote.mesh.position.setX(this._lanePositions[notes[i].laneIndex]);
@@ -145,6 +166,21 @@ class VSRGStage extends Stage
         {
             color: ColorEnum.LineColor
         });
+
+        // let octGeometry = new THREE.OctahedronGeometry(0.125, 0);
+        // let octMaterial = new THREE.MeshPhongMaterial({
+        //     color: 0x444444,
+        //     specular: 0x200A81,
+        //     shininess: 1
+        // });
+        // let leftOct = new THREE.Mesh(octGeometry, octMaterial);
+        // leftOct.translateX(-2.25);
+        // this.group.add(leftOct);
+
+        // let rightOct = new THREE.Mesh(octGeometry, octMaterial);
+        // rightOct.translateX(2.25);
+
+        // this.group.add(rightOct);
 
         let judgeLine = new THREE.Line(lineGeometry, lineMaterial);
         this.group.add(judgeLine);

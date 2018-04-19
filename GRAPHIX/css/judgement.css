@@ -1,10 +1,26 @@
-.judgement
-{
-    font-size: 16pt;
+@keyframes hit {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        font-size: 14pt;
+    }
+}
+
+.judgement {
+    font-size: 20pt;
     margin: auto;
     position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    height: 16pt;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 20pt;
     text-align: center;
+    opacity: 0;
+    text-shadow: 0px 0px 5px  white;
     vertical-align: middle;
+    animation: hit 250ms ease-in-out;
 }
