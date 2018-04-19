@@ -1,0 +1,27 @@
+.results {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    vertical-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    font-size: 24pt;
+    display: none;
+}
+
+#final_score {
+    font-size: 36pt;
+}
+
+#good {
+    color: #81C784;
+}
+
+#bad {
+    color: #FFEB3B;
+}
+
+#miss {
+    color: #F44336;
+}

@@ -39,6 +39,14 @@ class MusicTrack
         this._audio.addEventListener('seeking', func, false);
     }
 
+    /**
+     * @param {EventListener} func
+     */
+    addOnEndedListener(func)
+    {
+        this._audio.addEventListener('ended', func, false);
+    }
+
     isPlaying()
     {
         return !this._audio.paused;

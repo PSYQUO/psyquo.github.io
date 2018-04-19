@@ -10,6 +10,24 @@ class PlayScreen
         }
     }
 
+    hideInstructions()
+    {
+        let instructions = document.getElementById('instructions');
+        instructions.style.opacity = '0';
+        instructions.parentElement.removeChild(instructions);
+    }
+
+    showResults(results)
+    {
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('final_score').innerHTML = results.score;
+        document.getElementById('max_combo').innerHTML = 'x' + results.maxcombo;
+        document.getElementById('perfect').innerHTML = 'Perfect: ' + results.perfect;
+        document.getElementById('good').innerHTML = 'Good: ' + results.good;    
+        document.getElementById('bad').innerHTML = 'Bad: ' + results.bad;
+        document.getElementById('miss').innerHTML = 'Miss: ' + results.miss; 
+    }
+
     /**
      * 
      * @param {Stage} stage 
@@ -24,6 +42,8 @@ class PlayScreen
         document.body.appendChild(imports.score.cloneNode(true));
         document.body.appendChild(imports.judgement.cloneNode(true));
         document.body.appendChild(imports.info.cloneNode(true));
+        document.body.appendChild(imports.instructions.cloneNode(true));
+        document.body.appendChild(imports.results.cloneNode(true));
 
         this.scene = new THREE.Scene();
 

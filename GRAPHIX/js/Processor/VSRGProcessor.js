@@ -23,14 +23,25 @@ class VSRGProcessor
         }
     }
 
+    getResults()
+    {
+        return {
+            score: this._score,
+            maxcombo: this._maxcombo,
+            perfect: this._perfect,
+            good: this._good,
+            bad: this._bad,
+            miss: this._miss
+        }
+    }
+
     update()
     {
         if(!this._isLoaded)
             return;
 
-        //@ts-ignore
-        document.getElementById("score").innerHTML = (this._score + "").padStart(7, "0");
-        
+        document.getElementById("combo").innerHTML = "x" + this._combo;
+
         let currTime = this._track.getCurrentTime() - this._track.offset;
 
         for(let i = this._globalNoteIndex; i < this.noteArray.length; i++)
@@ -46,8 +57,11 @@ class VSRGProcessor
             {
                 document.getElementById("judgement").innerHTML = 'Miss';
                 note.setJudgement('Miss');
-              
+
                 this._globalNoteIndex = i;
+
+                this._combo = 0;
+                this._miss++;
             }
             else
                 return;
@@ -71,28 +85,40 @@ class VSRGProcessor
                 // console.log('Note at ' + note.starttime + ' is Perfect (Pressed at ' + currTime + ')');
                 note.setJudgement('Perfect');
                 this._score += this._perfectJudgementScore;
+                this._perfect++;
+                this._combo++;
+                this._updateCombo();
             }
             else if(note.starttime > currTime - 0.128 && note.starttime < currTime + 0.128) // within 128 ms
             {
                 // console.log('Note at ' + note.starttime + ' is Good (Pressed at ' + currTime + ')'); 
-                note.setJudgement('Good');               
+                note.setJudgement('Good');
                 this._score += this._goodJudgementScore;
+                this._good++;
+                this._combo++;
+                this._updateCombo();
             }
             else if(note.starttime > currTime - 0.192 && note.starttime < currTime + 0.192) // within 192 ms
             {
                 // console.log('Note at ' + note.starttime + ' is Bad (Pressed at ' + currTime + ')');   
-                note.setJudgement('Bad');             
+                note.setJudgement('Bad');
                 this._score += this._badJudgementScore;
+                this._bad++;
+                this._combo = 0;
             }
-            // else if(note.starttime < currTime + 0.256) // within 256 ms
-            // {
-            //     document.getElementById("judgement").innerHTML = 'Miss';
-            //     // console.log('Note at ' + note.starttime + ' is Bad (Pressed at ' + currTime + ')');
-            //     this._score += this._badJudgementScore;
-            // }
 
+            this._countUp.update(this._score);
             return;
         }
+    }
+
+    /**
+     * Updates the max combo counter.
+     */
+    _updateCombo()
+    {
+        if(this._combo > this._maxcombo)
+            this._maxcombo = this._combo;
     }
 
     /**
@@ -154,6 +180,14 @@ class VSRGProcessor
 
         this._score = 0;
 
+        this._combo = 0;
+        this._maxcombo = 0;
+
+        this._perfect = 0;
+        this._good = 0;
+        this._bad = 0;
+        this._miss = 0;
+
         /** 
          * For optimization?
          * @type Note[][] 
@@ -171,6 +205,13 @@ class VSRGProcessor
 
         this._isLoaded = false;
 
-        IM.addKeyDownListener(this._handleKeyDown.bind(this));        
+        let countUpOptions = {  
+            useEasing: true,
+            useGrouping: true,
+        };
+
+        this._countUp = new CountUp('score', 0, 0, 0, 1, countUpOptions);
+
+        IM.addKeyDownListener(this._handleKeyDown.bind(this));
     }
 }

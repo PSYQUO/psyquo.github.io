@@ -14,6 +14,16 @@ class PlayState extends State
         this.screen.update();
     }
 
+    _play()
+    {
+        this.screen.hideInstructions()
+        this.track.play();
+    }
+
+    _showResults()
+    {
+        this.screen.showResults(this.VSRGProcessor.getResults());
+    }
 
     /**
      * chartReader calls this once loading is done
@@ -36,18 +46,22 @@ class PlayState extends State
 
         // this._playtrack = new MetronomeTrack(140); 
 
-        let track = new MusicTrack('Purple Stars (Short ver.).mp3', 128, 3.025);
+        this.track = new MusicTrack('Purple Stars (Short ver.).mp3', 128, 3.025);
         
-        this.trackConductor = new TrackConductor(track);
-        this.VSRGStage = new VSRGStage(4, this.trackConductor, track);
+        this.trackConductor = new TrackConductor(this.track);
+        this.VSRGStage = new VSRGStage(4, this.trackConductor, this.track);
 
         this.chartReader = new ChartReader();
         this.chartReader.read('Purple Stars/chart.json', this._chartOnLoad.bind(this));
 
-        this.VSRGProcessor = new VSRGProcessor(track);
+        this.VSRGProcessor = new VSRGProcessor(this.track);
 		
         this.screen = new PlayScreen();
         this.screen.setStage(this.VSRGStage);
+
+        this.track.addOnEndedListener(this._showResults.bind(this));
+
+        IM.addInputListener(document.getElementById('instructions'), 'click', this._play.bind(this));
 
         this._isLoaded = true;
     }

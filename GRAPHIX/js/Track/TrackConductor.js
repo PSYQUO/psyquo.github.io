@@ -54,41 +54,41 @@ class TrackConductor
     {
         switch(event.code)
         {
-            case 'BracketRight':
+            case 'Backspace':
                 this._track.play();
                 console.log('play');
                 break;
 
-            case 'BracketLeft':
-                this._track.pause();
-                console.log('pause');
-                break;
+            // case 'BracketLeft':
+            //     this._track.pause();
+            //     console.log('pause');
+            //     break;
 
-            case 'Backslash':
-                this._track.stop();
-                this._resetConductor();
-                console.log('stop');
-                break;
+            // case 'Backslash':
+            //     this._track.stop();
+            //     this._resetConductor();
+            //     console.log('stop');
+            //     break;
 
-            case 'ArrowRight':
-                this._track.seek(this.beatLength / 4);
-                console.log('seek 1/2 beat ahead');
-                break;
+            // case 'ArrowRight':
+            //     this._track.seek(this.beatLength / 4);
+            //     console.log('seek 1/2 beat ahead');
+            //     break;
 
-            case 'ArrowLeft':
-                this._track.seek(-this.beatLength / 4);
-                console.log('seek 1/2 beat behind');
-                break;
+            // case 'ArrowLeft':
+            //     this._track.seek(-this.beatLength / 4);
+            //     console.log('seek 1/2 beat behind');
+            //     break;
 
-            case 'ArrowUp':
-                this._track.offset += 0.001;
-                console.log('offset + 0.001 ms');
-                break;
+            // case 'ArrowUp':
+            //     this._track.offset += 0.001;
+            //     console.log('offset + 0.001 ms');
+            //     break;
 
-            case 'ArrowDown':
-                this._track.offset -= 0.001;
-                console.log('offset - 0.001 ms');
-                break;
+            // case 'ArrowDown':
+            //     this._track.offset -= 0.001;
+            //     console.log('offset - 0.001 ms');
+            //     break;
         }
     }
 
