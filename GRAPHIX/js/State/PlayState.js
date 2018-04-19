@@ -10,8 +10,8 @@ class PlayState extends State
 
         this.trackConductor.update();
         this.VSRGStage.update();
-        this.screen.update();
         this.VSRGProcessor.update();
+        this.screen.update();
     }
 
 
@@ -20,7 +20,7 @@ class PlayState extends State
      */
     _chartOnLoad()
     {
-        this.VSRGProcessor.generateNotes(this.chartReader.chart);
+        this.VSRGProcessor.generateNotes(this.chartReader.chart, this.VSRGStage.displayJudgement.bind(this.VSRGStage));
         this.VSRGStage.renderNotes(this.VSRGProcessor.noteArray);
     }
 

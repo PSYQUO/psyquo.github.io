@@ -1,7 +1,7 @@
 .score {
-    font-size: 24pt;
+    font-size: 30pt;
     z-index: 1;
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 24px;
+    right: 24px;
 }

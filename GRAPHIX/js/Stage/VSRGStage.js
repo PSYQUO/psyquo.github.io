@@ -1,5 +1,11 @@
 class VSRGStage extends Stage
 {
+    _seek()
+    {
+        console.log(this._conductor.getNormalizedTime());
+        this._barLineArray[0].position.z = this._conductor.getNormalizedTime() * this._speed - this._track.offset;
+    }
+
     update()
     {
         if(this._track.isPlaying())
@@ -15,14 +21,14 @@ class VSRGStage extends Stage
 
             for(let i = 0; i < this._noteArray.length; i++)
             {
-                if(this._noteArray[i].object.position.z + this._noteArray[i].zoffset > 0 && this._noteArray[i].isValid)
+                if(this._noteArray[i].mesh.position.z - this._noteArray[i].zoffset > 0 && this._noteArray[i].isValid)
                 {
                     this._noteArray[i].isValid = false;
-                    this.group.remove(this._noteArray[i].object);
+                    this.group.remove(this._noteArray[i].mesh);
                 }
                 else
                 {
-                    this._noteArray[i].object.translateZ(this._speed * delta);
+                    this._noteArray[i].mesh.translateZ(this._speed * delta);
                 }
             }
         }
@@ -33,15 +39,13 @@ class VSRGStage extends Stage
         }
     }
 
-    flash()
+    /**
+     * 
+     * @param {Note} note 
+     */
+    displayJudgement(note)
     {
-
-    }
-
-    _seek()
-    {
-        console.log(this._conductor.getNormalizedTime());
-        this._barLineArray[0].position.z = this._conductor.getNormalizedTime() * this._speed - this._track.offset;
+        document.getElementById("judgement").innerHTML = note.judgement;
     }
 
     /**
@@ -51,23 +55,24 @@ class VSRGStage extends Stage
     {
         for(let i = 0; i < notes.length; i++)
         {
-            let noteMesh;
+            let visualNote;
 
             if(notes[i].endtime != null)
             {
-                noteMesh = new VisualNote();
+                visualNote = new VisualLongNote((notes[i].endtime - notes[i].starttime) * this._speed);
             }
             else
             {
-                noteMesh = new VisualNote();
+                visualNote = new VisualNote(0.25);
             }
+            
+            visualNote.mesh.translateZ(-(notes[i].starttime * this._speed) - (this._track.offset * this._speed) - visualNote.zoffset - this._visualOffset);
 
-            noteMesh.object.translateZ(-(notes[i].starttime * this._speed) - (this._track.offset * this._speed) - noteMesh.zoffset - this._visualOffset);
-            noteMesh.object.position.setX(this._lanePositions[notes[i].laneIndex]);
+            visualNote.mesh.position.setX(this._lanePositions[notes[i].laneIndex]);
 
-            notes[i].bindMesh(noteMesh);
-            this._noteArray.push(noteMesh);
-            this.group.add(noteMesh.object);
+            notes[i].bindMesh(visualNote);
+            this._noteArray.push(visualNote);
+            this.group.add(visualNote.mesh);
         }
     }
 
@@ -87,15 +92,13 @@ class VSRGStage extends Stage
         this._conductor = conductor;
         this._track = track;
 
-        this._chart = null;
-
         this._lanePositions = [];
 
         /**
          * lane width = 1, height = 50
          */
         let laneHeight = 50;
-        
+
         let planeGeometry = new THREE.PlaneGeometry(1, laneHeight);
 
         for(let i = 0; i < laneCount; i++)
@@ -128,7 +131,7 @@ class VSRGStage extends Stage
             this.group.add(lane);
         }
 
-        let light = new THREE.PointLight(0xffffff, 3, 52);
+        let light = new THREE.PointLight(0xffffff, 4, 52);
         light.translateY(5);
         this.group.add(light);
 
@@ -176,9 +179,6 @@ class VSRGStage extends Stage
         skybox.translateY(5);
 
         this.group.add(skybox);
-
-        // let ambientLight = new THREE.AmbientLight(0x111111, 0.1);
-        // this.group.add(ambientLight);
 
         /** @type VisualNote[] */
         this._noteArray = [];

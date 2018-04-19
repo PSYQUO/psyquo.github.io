@@ -96,8 +96,6 @@ window.onload = function()
     {
         //@ts-ignore
         imports[links[i].import.querySelector('div').className] = links[i].import.querySelector('div');
-    //@ts-ignore
-        console.log(links[i].import.querySelector('div').className);
     }
 
     document.body.appendChild(imports.debug.cloneNode(true));

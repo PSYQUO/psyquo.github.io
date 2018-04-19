@@ -9,16 +9,16 @@ class VSRGProcessor
         switch(event.code)
         {
             case 'KeyD':
-                this._checkHit(0);
+                this._judgeHit(0);
                 break;
             case 'KeyF':
-                this._checkHit(1);
+                this._judgeHit(1);
                 break;
             case 'KeyJ':
-                this._checkHit(2);
+                this._judgeHit(2);
                 break;
             case 'KeyK':
-                this._checkHit(3);
+                this._judgeHit(3);
                 break;
         }
     }
@@ -37,16 +37,15 @@ class VSRGProcessor
         {
             let note = this.noteArray[i];
 
-            if(note.isHit)
+            if(note.judgement != null)
             {
                 this._globalNoteIndex = i;
                 continue;
             }
-            else if(note.starttime < currTime - 0.256) // 132 ms late
+            else if(note.starttime < currTime - 0.256) // 256 ms late
             {
                 document.getElementById("judgement").innerHTML = 'Miss';
-                console.log('Note at ' + note.starttime + ' is a Miss');
-                note.isHit = true;
+                note.setJudgement('Miss');
               
                 this._globalNoteIndex = i;
             }
@@ -55,55 +54,53 @@ class VSRGProcessor
         }
     }
 
-    _checkHit(lane)
+    _judgeHit(lane)
     {
         let currTime = this._track.getCurrentTime() - this._track.offset;
 
         for(let i = 0; i < this._noteArrayPerLane[lane].length; i++)
         {
             let note = this._noteArrayPerLane[lane][i];
-            if(note.isHit)
+
+            if(note.judgement != null)
             {
                 continue;
             }
-            else if(note.starttime > currTime - 0.048 && note.starttime < currTime + 0.048) // within 48 ms
+            else if(note.starttime > currTime - 0.064 && note.starttime < currTime + 0.064) // within 64 ms
             {
-                document.getElementById("judgement").innerHTML = 'Perfect';
                 // console.log('Note at ' + note.starttime + ' is Perfect (Pressed at ' + currTime + ')');
-                note.isHit = true;
-                FX.playHit();
-
+                note.setJudgement('Perfect');
                 this._score += this._perfectJudgementScore;
-                return;
             }
-            else if(note.starttime > currTime - 0.112 && note.starttime < currTime + 0.112) // within 112 ms
+            else if(note.starttime > currTime - 0.128 && note.starttime < currTime + 0.128) // within 128 ms
             {
-                document.getElementById("judgement").innerHTML = 'Good';
-                // console.log('Note at ' + note.starttime + ' is Good (Pressed at ' + currTime + ')');
-                this._noteArrayPerLane[lane][i].isHit = true;
-                FX.playHit();
-                
+                // console.log('Note at ' + note.starttime + ' is Good (Pressed at ' + currTime + ')'); 
+                note.setJudgement('Good');               
                 this._score += this._goodJudgementScore;
-                return;
             }
-            else if(note.starttime > currTime - 0.176 && note.starttime < currTime + 0.176) // within 176 ms
+            else if(note.starttime > currTime - 0.192 && note.starttime < currTime + 0.192) // within 192 ms
             {
-                document.getElementById("judgement").innerHTML = 'Bad';
-                // console.log('Note at ' + note.starttime + ' is Bad (Pressed at ' + currTime + ')');
-                this._noteArrayPerLane[lane][i].isHit = true;
-                FX.playHit();
-                
-                this._score += this._badJudemenetScore;
-                return;
+                // console.log('Note at ' + note.starttime + ' is Bad (Pressed at ' + currTime + ')');   
+                note.setJudgement('Bad');             
+                this._score += this._badJudgementScore;
             }
+            // else if(note.starttime < currTime + 0.256) // within 256 ms
+            // {
+            //     document.getElementById("judgement").innerHTML = 'Miss';
+            //     // console.log('Note at ' + note.starttime + ' is Bad (Pressed at ' + currTime + ')');
+            //     this._score += this._badJudgementScore;
+            // }
+
+            return;
         }
     }
 
     /**
      * Generates the notes given a JSON chart.
      * @param {Object} chart 
+     * @param {Function} callback
      */
-    generateNotes(chart)
+    generateNotes(chart, callback)
     {
         for(let i = 0; i < chart.length; i++)
         {
@@ -134,13 +131,15 @@ class VSRGProcessor
                 note.setEndTime(chart[i][5] / 1000);
             }
 
+            note.setOnJudgement(callback);
+
             this.noteArray.push(note);
             this._noteArrayPerLane[laneIndex].push(note);
         }
 
         this._perfectJudgementScore = Math.floor(1000000 / chart.length);
         this._goodJudgementScore = Math.floor(1000000 / chart.length * 0.8);
-        this._badJudemenetScore = Math.floor(1000000 / chart.length * 0.5);
+        this._badJudgementScore = Math.floor(1000000 / chart.length * 0.5);
 
         this._isLoaded = true;
     }

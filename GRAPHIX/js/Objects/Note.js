@@ -5,6 +5,25 @@ class Note
         this.endtime = endtime;
     }
 
+    setJudgement(judgement)
+    {
+        this.judgement = judgement;
+
+        if(judgement != 'Miss')
+            FX.playHit();
+            
+        this._judgementCallback(this);
+    }
+
+    /**
+     * 
+     * @param {Function} callback 
+     */
+    setOnJudgement(callback)
+    {
+        this._judgementCallback = callback;
+    }
+
     /**
      * 
      * @param {VisualNote} noteMesh 
@@ -26,6 +45,6 @@ class Note
 
         this.laneIndex = laneIndex;
 
-        this.isHit = false;
+        this.judgement = null;
     }
 }
