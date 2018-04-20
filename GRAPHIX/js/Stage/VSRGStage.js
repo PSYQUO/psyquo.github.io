@@ -8,6 +8,26 @@ class VSRGStage extends Stage
 
     update()
     {
+        if(this._laneIsHeldArray[0])
+            this._laneArray[0].color.set(ColorEnum.LaneActiveColor);
+        else
+            this._laneArray[0].color.set(ColorEnum.LaneDefaultColor);
+
+        if(this._laneIsHeldArray[1])
+            this._laneArray[1].color.set(ColorEnum.LaneActiveColor);
+        else
+            this._laneArray[1].color.set(ColorEnum.LaneDefaultColor);
+
+        if(this._laneIsHeldArray[2])
+            this._laneArray[2].color.set(ColorEnum.LaneActiveColor);
+        else
+            this._laneArray[2].color.set(ColorEnum.LaneDefaultColor);
+
+        if(this._laneIsHeldArray[3])
+            this._laneArray[3].color.set(ColorEnum.LaneActiveColor);
+        else
+            this._laneArray[3].color.set(ColorEnum.LaneDefaultColor);
+             
         if(this._track.isPlaying())
         {
             for(let i = 0; i < this._barLineArray.length; i++)
@@ -69,6 +89,44 @@ class VSRGStage extends Stage
         judgement.style.animation = null;
     }
 
+    _handleKeyDown(event)
+    {
+        switch(event.code)
+        {
+            case 'KeyD':
+                this._laneIsHeldArray[0] = true;
+                break;
+            case 'KeyF':
+                this._laneIsHeldArray[1] = true;
+                break;
+            case 'KeyJ':
+                this._laneIsHeldArray[2] = true;
+                break;
+            case 'KeyK':
+                this._laneIsHeldArray[3] = true;
+                break;
+        }
+    }
+
+    _handleKeyUp(event)
+    {
+        switch(event.code)
+        {
+            case 'KeyD':
+                this._laneIsHeldArray[0] = false;
+                break;
+            case 'KeyF':
+                this._laneIsHeldArray[1] = false;
+                break;
+            case 'KeyJ':
+                this._laneIsHeldArray[2] = false;
+                break;
+            case 'KeyK':
+                this._laneIsHeldArray[3] = false;
+                break;
+        }
+    }
+
     /**
      * @param {Note[]} notes
      */
@@ -115,6 +173,13 @@ class VSRGStage extends Stage
 
         this._lanePositions = [];
 
+        this._laneIsHeldArray = [];
+
+        /**
+         * @type THREE.MeshPhongMaterial[]
+         */
+        this._laneArray = [];
+
         /**
          * lane width = 1, height = 50
          */
@@ -126,10 +191,12 @@ class VSRGStage extends Stage
         {
             let planeMaterial = new THREE.MeshPhongMaterial(
             {
-                color: ColorEnum.LaneColor,
+                color: ColorEnum.LaneDefaultColor,
                 specular: 0x200A81,
                 shininess: 1
             });
+
+            this._laneArray.push(planeMaterial);
 
             let lane = new THREE.Mesh(planeGeometry, planeMaterial);
 
@@ -149,6 +216,7 @@ class VSRGStage extends Stage
                 lane.translateX(this._lanePositions[i]);
             }
 
+            this._laneIsHeldArray.push(false);
             this.group.add(lane);
         }
 
@@ -166,21 +234,6 @@ class VSRGStage extends Stage
         {
             color: ColorEnum.LineColor
         });
-
-        // let octGeometry = new THREE.OctahedronGeometry(0.125, 0);
-        // let octMaterial = new THREE.MeshPhongMaterial({
-        //     color: 0x444444,
-        //     specular: 0x200A81,
-        //     shininess: 1
-        // });
-        // let leftOct = new THREE.Mesh(octGeometry, octMaterial);
-        // leftOct.translateX(-2.25);
-        // this.group.add(leftOct);
-
-        // let rightOct = new THREE.Mesh(octGeometry, octMaterial);
-        // rightOct.translateX(2.25);
-
-        // this.group.add(rightOct);
 
         let judgeLine = new THREE.Line(lineGeometry, lineMaterial);
         this.group.add(judgeLine);
@@ -221,8 +274,8 @@ class VSRGStage extends Stage
 
         this._track.addOnSeekListener(this._seek.bind(this));
 
-        // IM.addKeyDownListener(this._handleKeyDown.bind(this));
-        // IM.addKeyUpListener(this._handleKeyUp.bind(this));
+        IM.addKeyDownListener(this._handleKeyDown.bind(this));
+        IM.addKeyUpListener(this._handleKeyUp.bind(this));
         // IM.addMouseClickListener(this._handleMouseClick.bind(this));
     }
 }
