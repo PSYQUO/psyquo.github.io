@@ -164,8 +164,8 @@ class VSRGProcessor
         }
 
         this._perfectJudgementScore = Math.floor(1000000 / chart.length);
-        this._goodJudgementScore = Math.floor(1000000 / chart.length * 0.8);
-        this._badJudgementScore = Math.floor(1000000 / chart.length * 0.5);
+        this._goodJudgementScore = Math.floor(1000000 / chart.length * 0.66);
+        this._badJudgementScore = Math.floor(1000000 / chart.length * 0.33);
 
         this._isLoaded = true;
     }
