@@ -14,18 +14,18 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 lang: en-US
-title: My Awesome Site
-email:
-description:
+title: PSYQUO
+email: psyquo.contact@gmail.com
+description: Music Producer, Composer, Freelancer
 baseurl: # the optional subpath of your site, e.g. "/blog"
-url: # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url: https://PSYQUO.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 author:
-  name:
-  twitter:
-  picture:
-twitter_username:
+  name: Patrick Sy
+  twitter: PSYQUO_
+  picture: /assets/images/PSYQUO_logo_300x300.png
+twitter_username: PSYQUO_
 github_username:
-logo: # path of site logo, e.g. "/assets/images/logo.png"
+logo: /assets/images/PSYQUO_logo_300x300.png # path of site logo, e.g. "/assets/images/logo.png"
 search: # true, false (default)
 search_full_content: false # true, false (default)
 search_provider: # lunr (default), algolia
